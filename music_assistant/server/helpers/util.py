@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import sys
+
 import asyncio
 import importlib
 import logging
@@ -31,7 +33,7 @@ HA_WHEELS = "https://wheels.home-assistant.io/musllinux/"
 async def install_package(package: str) -> None:
     """Install package with pip, raise when install failed."""
     LOGGER.debug("Installing python package %s", package)
-    cmd = f"python3 -m pip install --find-links {HA_WHEELS} {package}"
+    cmd = " ".join([sys.executable, "-m", "pip", "install", "--find-links", HA_WHEELS, package])
     proc = await asyncio.create_subprocess_shell(
         cmd, stderr=asyncio.subprocess.STDOUT, stdout=asyncio.subprocess.PIPE
     )
